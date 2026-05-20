@@ -1,4 +1,4 @@
-name: Terraform Validate and Plan
+name: Terraform Validate and Format
 
 on:
   push:
@@ -7,42 +7,39 @@ on:
 
 jobs:
   validate-aws:
-    name: AWS Validate and Plan
+    name: AWS — Validate and Format
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.8.0
-      - name: Init
+
+      - name: Terraform Init (AWS)
         run: terraform -chdir=terraform/aws init -backend=false
-      - name: Validate
+
+      - name: Terraform Validate (AWS)
         run: terraform -chdir=terraform/aws validate
-      - name: Format check
+
+      - name: Terraform Format Check (AWS)
         run: terraform -chdir=terraform/aws fmt -check
-      - name: Plan
-        run: terraform -chdir=terraform/aws plan
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        continue-on-error: true
 
   validate-gcp:
-    name: GCP Validate and Plan
+    name: GCP — Validate and Format
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.8.0
-      - name: Init
+
+      - name: Terraform Init (GCP)
         run: terraform -chdir=terraform/gcp init -backend=false
-      - name: Validate
+
+      - name: Terraform Validate (GCP)
         run: terraform -chdir=terraform/gcp validate
-      - name: Format check
+
+      - name: Terraform Format Check (GCP)
         run: terraform -chdir=terraform/gcp fmt -check
-      - name: Plan
-        run: terraform -chdir=terraform/gcp plan -var="gcp_project_id=${{ secrets.GCP_PROJECT_ID }}"
-        env:
-          GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
-        continue-on-error: true
