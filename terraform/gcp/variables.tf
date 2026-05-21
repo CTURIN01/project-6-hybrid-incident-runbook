@@ -5,13 +5,13 @@ variable "gcp_project_id" {
 }
 
 variable "gcp_region" {
-  description = "GCP region to deploy resources"
+  description = "GCP region"
   type        = string
   default     = "us-central1"
 }
 
 variable "project_name" {
-  description = "Project name used for labeling"
+  description = "Project name for labeling"
   type        = string
   default     = "project-6-hybrid"
 }

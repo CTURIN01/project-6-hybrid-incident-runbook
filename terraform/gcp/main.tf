@@ -13,18 +13,6 @@ provider "google" {
   region  = var.gcp_region
 }
 
-variable "gcp_project_id" {
-  default = "your-gcp-project-id"
-}
-
-variable "gcp_region" {
-  default = "us-central1"
-}
-
-variable "project_name" {
-  default = "project-6-hybrid"
-}
-
 resource "google_compute_network" "main" {
   name                    = "${var.project_name}-vpc"
   auto_create_subnetworks = false
@@ -48,8 +36,4 @@ resource "google_compute_firewall" "allow_internal" {
     protocol = "icmp"
   }
   source_ranges = ["10.1.0.0/16"]
-}
-
-output "gcp_network_id" {
-  value = google_compute_network.main.id
 }
